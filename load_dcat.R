@@ -113,10 +113,51 @@ resources_output <- links_resources |>
   )
 
 
+# Add XML metadata URLs
+
+xml_metadata_urls <- resources_output |> 
+  select(
+    dataset_title,
+    arcgis_id
+  ) |> 
+  distinct()
+
+xml_metadata_urls <- xml_metadata_urls |> 
+  mutate(
+    arcgis_id_short = str_split_i(arcgis_id, "_", i = 1),
+    resource_url = str_c("https://yukon.maps.arcgis.com/sharing/rest/content/items/", arcgis_id_short, "/info/metadata/metadata.xml?format=default&output=html"),
+    resource_title = "XML metadata"
+  )
+
+xml_metadata_urls <- xml_metadata_urls |> 
+  select(
+    dataset_title,
+    arcgis_id,
+    resource_url,
+    resource_title
+  ) |> 
+  distinct()
+
+# Add back into resources_output
+
+resources_output <- resources_output |> 
+  bind_rows(
+    xml_metadata_urls
+  ) |> 
+  arrange(
+    dataset_title,
+    resource_title
+  )
+
+
 # Cleanup
 
 datasets <- datasets |> 
   filter(description != "") |> 
   filter(description != "{{description}}")
 
+
+dcat_datasets <- datasets
+
+dcat_resources <- resources_output
 
