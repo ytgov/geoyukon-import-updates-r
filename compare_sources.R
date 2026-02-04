@@ -51,6 +51,78 @@ compare_datasets <- compare_datasets |>
 datasets_to_update <- compare_datasets |> 
   pull(title)
 
+
+
+# Collect net new datasets ------------------------------------------------
+
+# After some cutoff date
+
+net_new_dataset_titles <- compare_dcat_datasets |> 
+  left_join(
+    compare_ckan_datasets,
+    by = "title"
+  ) |> 
+  filter(
+    is.na(ckan_modified)
+  ) |> 
+  pull(title)
+
+net_new_datasets_dcat <- dcat_datasets |> 
+  filter(
+    title %in% net_new_dataset_titles
+  ) |> 
+  mutate(
+    arcgis_id_short = str_split_i(arcgis_id, "_", i = 1),
+    arcgis_url = str_c("https://yukon.maps.arcgis.com/home/item.html?id=", arcgis_id_short)
+  )
+
+net_new_datasets_dcat_export <- net_new_datasets_dcat |> 
+  select(
+    title,
+    arcgis_url,
+    issued,
+    modified
+  ) |> 
+  rename(
+    date_created = "issued",
+    date_modified = "modified"
+  )
+
+net_new_datasets_dcat_export |> 
+  write_csv("output/net_new_datasets.csv")
+
+
+# Deleted datasets --------------------------------------------------------
+
+# In CKAN but not in DCAT
+
+deleted_dataset_titles <- compare_ckan_datasets |> 
+  left_join(
+    compare_dcat_datasets,
+    by = "title"
+  ) |>
+  filter(
+    is.na(dcat_modified)
+  ) |> 
+  pull(title)
+
+deleted_ckan_datasets <- geoyukon_import_datasets |> 
+  filter(
+    title %in% deleted_dataset_titles
+  ) |> 
+  mutate(
+    ckan_url = str_c("https://open.yukon.ca/data/", name)
+  ) |> 
+  select(
+    title,
+    ckan_url,
+    metadata_created,
+    metadata_modified
+  )
+
+deleted_ckan_datasets |> 
+  write_csv("output/datasets_to_delete_from_ckan.csv")
+
 # Compare resources -------------------------------------------------------
 
 # Todo: add in the metadata URLs from the DCAT feed dataset
