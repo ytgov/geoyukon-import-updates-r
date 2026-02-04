@@ -41,13 +41,14 @@ ckan_resources_to_update_parameters <- ckan_resources_to_update |>
 for (i in seq_along(ckan_resources_to_update_parameters$resource_id)) { 
   cat("Updating", ckan_resources_to_update_parameters$resource_id[i], "to", ckan_resources_to_update_parameters$url[i], "\n")
   
-  # resource_update(
-  #   id = ckan_resources_to_update_parameters$resource_id[i],
-  #   rcurl = ckan_resources_to_update_parameters$url[i]
-  # )
-  # resource_patch(
-  #   
-  # )
+  ckan_action(
+    "resource_update",
+    body = list(
+      id = ckan_resources_to_update_parameters$resource_id[i],
+      url = ckan_resources_to_update_parameters$url[i]
+    )
+  )
   
-  break;
+  # Limit to one entry for testing
+  # break;
 }
