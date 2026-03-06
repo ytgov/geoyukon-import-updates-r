@@ -45,7 +45,8 @@ datasets <- raw_datasets |>
     arcgis_id = "agol",
     issued = "issued",
     modified = "modified",
-    license = "license"
+    license = "license",
+    keyword = "keyword"
         )
 
 distribution_resources <- raw_datasets |> 
