@@ -7,6 +7,9 @@ library(janitor)
 # This file is adapted from the DKAN to CKAN conversion script here,
 # https://github.com/ytgov/dkan-to-ckan-csv-migration-r/blob/main/load.R
 
+# Note: not currently used as of 2026-02-26.
+stop("Not currently used; see compare_sources.R or update_datasets.R")
+
 # Source files ========================
 
 source_geoyukon_dataset_file <- "input/20260102/datasets.csv"
