@@ -93,7 +93,20 @@ links_resources <- links_resources |>
   select(! links_id) |> 
   unnest_longer(links)
 
+# Fourth (?!) round of unnesting
+links_resources <- links_resources |> 
+  mutate(
+    links = map(links, as.list)
+  ) |> 
+  unnest_longer(links) |> 
+  mutate(
+    links = as.character(links)
+  )
+
+
+
 # Remove entries without links
+# TODO: confirm if this is still doing what's expected
 links_resources <- links_resources |> 
   filter(links_id == "linkage") |> 
   select(! links_id)
@@ -109,6 +122,7 @@ resources_output <- links_resources |>
       str_detect(resource_url, "map-data.service.yukon.ca") ~ "Shape files",
       str_detect(resource_url, "yukon.maps.arcgis.com/home") ~ "ArcGIS Online layers",
       str_detect(resource_url, "mapservices.gov.yk.ca/imagery") ~ "Image server",
+      str_detect(resource_url, "clss.nrcan-rncan.gc.ca/data-donnees/sgb_datasets/yt/") ~ "GeoDB file",
       .default = "(Resource title)"
     )
   )
