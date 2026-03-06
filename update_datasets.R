@@ -51,4 +51,7 @@ for (i in seq_along(ckan_resources_to_update_parameters$resource_id)) {
   
   # Limit to one entry for testing
   # break;
+  
+  Sys.sleep(0.3)
 }
+
