@@ -131,13 +131,15 @@ add_geospatial_layer_ckan_package <- function(title, description, homepage_url, 
     title = title,
     notes = description,
     license_id = "OGL-Yukon-2.0",
+    type = "data",
     # Geomatics Yukon
     owner_org = "f8301d90-0290-4456-ad98-df79d33b1bd6",
     
     extras = list(
       internal_contact_email = "Geomatics.Help@yukon.ca",
       internal_contact_name = "Geomatics Yukon",
-      homepage_url = homepage_url
+      homepage_url = homepage_url,
+      update_frequency = "ad_hoc"
     ),
     
     # REVIEW: Includes the first entry but not subsequent ones??
