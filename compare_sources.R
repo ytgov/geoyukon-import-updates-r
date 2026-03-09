@@ -86,7 +86,8 @@ net_new_datasets_dcat_export <- net_new_datasets_dcat |>
   rename(
     date_created = "issued",
     date_modified = "modified"
-  )
+  ) |> 
+  arrange(desc(date_modified))
 
 net_new_datasets_dcat_export |> 
   write_csv("output/net_new_datasets.csv")
