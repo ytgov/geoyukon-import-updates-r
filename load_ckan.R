@@ -40,6 +40,10 @@ geomatics_organization <- organization_show(
   as = "table"
 )
 
+# TODO: update this to also include other tags
+# e.g. geoyukon-import-20260309 or others
+# Or retrieve all packages across the Geomatics Yukon organization.
+
 # geoyukon-import
 # tag ID: b7c79d13-8d21-45b4-bb1a-a364a3db8c48
 # Limited to 1000 results via tag_show
