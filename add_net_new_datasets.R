@@ -14,7 +14,11 @@ clean_dcat_description_text <- function(description_text) {
   # Sometimes these are <p> and sometimes they are <p style="..."
   description_text = str_replace_all(description_text, "<p", "\n\n<p")
   
+  # Sometimes they are capitalized! TODO: make this a better regex combined with the above
+  description_text = str_replace_all(description_text, "<P", "\n\n<p")
+  
   description_text = str_replace_all(description_text, "<br", "\n\n<br")
+  description_text = str_replace_all(description_text, "<BR", "\n\n<br")
   
   # Remove all HTML entities.
   # Thanks to https://regex101.com/library/qS0gE2?orderBy=RELEVANCE&search=html
@@ -28,6 +32,10 @@ clean_dcat_description_text <- function(description_text) {
   # Remove many linebreaks to just 2
   description_text = str_replace_all(description_text, "\\n{2,}", "\n\n")
   
+  # Remove &nbsp;-linebreak combinations
+  # 
+  description_text = str_replace_all(description_text, "\\n\\n&nbsp;\\n\\n", "\n\n")
+  
   # Remove leading linebreaks at the start of the description
   description_text = str_replace_all(description_text, "^\\n{2,}", "")
   
@@ -38,6 +46,10 @@ clean_dcat_description_text <- function(description_text) {
   description_text = str_replace_all(description_text, "geomatics.help@yukon.ca", "[geomatics.help@yukon.ca](mailto:geomatics.help@yukon.ca)")
   description_text = str_replace_all(description_text, "geomatics.help@gov.yk.ca", "[geomatics.help@yukon.ca](mailto:geomatics.help@yukon.ca)")
   description_text = str_replace_all(description_text, "Geomatics.Help@gov.yk.ca", "[geomatics.help@yukon.ca](mailto:geomatics.help@yukon.ca)")
+  
+  # Add Elections Yukon emails
+  # TODO: standardize this into a generic email regex
+  description_text = str_replace_all(description_text, "info@electionsyukon.ca", "[info@electionsyukon.ca](mailto:info@electionsyukon.ca)")
   
   description_text
   
