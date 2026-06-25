@@ -3,6 +3,14 @@ source("compare_sources.R")
 
 # Manually filter to specific datasets to update --------------------------
 
+# dataset_descriptions_to_update <- geoyukon_import_datasets %>% 
+#   as_tibble() %>% 
+#   filter(
+#     str_detect(title, "(Legacy)")
+#   ) %>% 
+#   select(name) %>% 
+#   pull(name)
+
 dataset_descriptions_to_update <- c(
   "dawson-land-management-units-250k"
 )
