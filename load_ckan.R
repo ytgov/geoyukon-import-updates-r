@@ -78,3 +78,6 @@ geoyukon_import_dataset_resources <- geoyukon_import_datasets |>
     resources
   )
 
+# Filter out "All resource data" ZIP entries
+geoyukon_import_dataset_resources <- geoyukon_import_dataset_resources |> 
+  filter(is.na(downloadall_datapackage_hash))
